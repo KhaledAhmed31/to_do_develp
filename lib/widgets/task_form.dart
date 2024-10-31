@@ -92,8 +92,8 @@ class _TaskFormState extends State<TaskForm> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     provider.addTask(TaskModel(
-                        title: titleController.text,
-                        description: descroptionController.text,
+                        title: titleController.text.trim(),
+                        description: descroptionController.text.trim(),
                         date: DateTime(currentDate.year, currentDate.month,
                             currentDate.day)));
                     Navigator.of(context).pop();

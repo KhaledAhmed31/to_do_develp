@@ -21,7 +21,6 @@ class TaskProvider extends ChangeNotifier {
   Future<void> deleteTask(String id) async {
     await FirebaseServices.delete(id);
     getTasks();
-    notifyListeners();
   }
 
   void changeDate(DateTime newDate) {

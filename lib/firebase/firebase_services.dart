@@ -17,8 +17,8 @@ class FirebaseServices {
     return doc.set(task);
   }
 
-  static Future<void> delete(String id) {
-    return collection.doc(id).delete();
+  static Future<void> delete(String id) async {
+    return await collection.doc(id).delete();
   }
 
   static Future<List<TaskModel>> getTasks(DateTime selectedDate) async {
