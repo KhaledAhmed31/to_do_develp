@@ -13,9 +13,9 @@ class MyTextField extends StatefulWidget {
       required this.controller,
       this.validator,
       required this.hint,
-      required this.maxLines,
-      required this.size,
-      required this.fontWeight});
+      this.maxLines = 1,
+      this.size = 18,
+      this.fontWeight = FontWeight.normal});
 
   @override
   State<MyTextField> createState() => _MyTextFieldState();

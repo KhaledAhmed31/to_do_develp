@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/providers/task_provider.dart';
 import 'package:to_do/screens/edit.dart';
 import 'package:to_do/screens/home.dart';
+import 'package:to_do/screens/login.dart';
+import 'package:to_do/screens/register.dart';
 import 'package:to_do/themes&colors/my_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -31,10 +31,13 @@ class MyApp extends StatelessWidget {
       title: 'To Do',
       routes: {
         Home.routeName: (context) => const Home(),
-        Edit.routeName: (context) => const Edit()
+        Edit.routeName: (context) => const Edit(),
+        Login.routeName: (context) => const Login(),
+        Register.routeName: (context) => const Register()
       },
       theme: MyTheme.lightTheme,
       darkTheme: MyTheme.darkTheme,
+      initialRoute: Register.routeName,
     );
   }
 }

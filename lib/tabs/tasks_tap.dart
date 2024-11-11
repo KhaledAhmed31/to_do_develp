@@ -1,8 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do/firebase/firebase_services.dart';
-import 'package:to_do/models/task_model.dart';
 import 'package:to_do/providers/task_provider.dart';
 import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/task_card.dart';

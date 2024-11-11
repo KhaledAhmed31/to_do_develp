@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:to_do/models/app_user_model.dart';
 import 'package:to_do/models/task_model.dart';
 
 class FirebaseServices {
@@ -26,5 +28,15 @@ class FirebaseServices {
         .where('date', isEqualTo: Timestamp.fromDate(selectedDate))
         .get();
     return docs.docs.map((e) => e.data()).toList();
+  }
+
+  static Future<void> login(AppUserModel user, String password) async {
+    UserCredential credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: user.email!, password: password);
+  }
+
+  static Future<void> register(AppUserModel user, String password) async {
+    UserCredential credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: user.email!, password: password);
   }
 }
