@@ -17,7 +17,7 @@ class _TaskFormState extends State<TaskForm> {
   DateTime currentDate = DateTime.now();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
-  TextEditingController descroptionController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   DateFormat dateFormat = DateFormat('yyyy/MM/dd');
 
   @override
@@ -54,14 +54,11 @@ class _TaskFormState extends State<TaskForm> {
                 },
               ),
               MyTextField(
-                controller: descroptionController,
+                controller: descriptionController,
                 hint: "Description",
                 size: 18,
                 fontWeight: FontWeight.w400,
                 maxLines: 5,
-                validator: (p0) {
-                  return null;
-                },
               ),
               Text(
                 "Select the date:",
@@ -95,7 +92,7 @@ class _TaskFormState extends State<TaskForm> {
                     if (formKey.currentState!.validate()) {
                       provider.addTask(TaskModel(
                           title: titleController.text.trim(),
-                          description: descroptionController.text.trim(),
+                          description: descriptionController.text.trim(),
                           date: DateTime(currentDate.year, currentDate.month,
                               currentDate.day)));
                       Navigator.of(context).pop();

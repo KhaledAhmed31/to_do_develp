@@ -2,6 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/providers/task_provider.dart';
+import 'package:to_do/providers/theme_provider.dart';
 import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/task_card.dart';
 
@@ -19,10 +20,15 @@ class TasksState extends State<Tasks> {
   DateTime currentDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TaskProvider>(context);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: false);
+    TaskProvider provider = Provider.of<TaskProvider>(context);
     isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(children: [
+      SizedBox(
+        height: MediaQuery.sizeOf(context).height * .05,
+      ),
       Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: EasyInfiniteDateTimeLine(
@@ -36,40 +42,99 @@ class TasksState extends State<Tasks> {
               provider.changeDate(selectedDate);
             });
           },
-          dayProps: EasyDayProps(
-              todayStyle: DayStyle(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: MyColors.lightBlue, width: 3))),
-              activeDayStyle: DayStyle(
-                  monthStrStyle: TextStyle(
-                      color: MyColors.lightBlue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  dayStrStyle: TextStyle(
-                      color: MyColors.lightBlue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  dayNumStyle: TextStyle(
-                      color: MyColors.lightBlue,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
-              inactiveDayStyle: const DayStyle(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))))),
+          dayProps: !themeProvider.getTheme()
+              ? EasyDayProps(
+                  todayStyle: DayStyle(
+                      monthStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayNumStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                  activeDayStyle: DayStyle(
+                      monthStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayNumStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: MyColors.lightBlue, width: 3),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  inactiveDayStyle: const DayStyle(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)))))
+              : EasyDayProps(
+                  todayStyle: DayStyle(
+                      monthStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayNumStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                      decoration: BoxDecoration(
+                          color: MyColors.lightBlack,
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  activeDayStyle: DayStyle(
+                      monthStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayStrStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
+                      dayNumStyle: TextStyle(
+                          color: MyColors.lightBlue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: MyColors.lightBlue, width: 2),
+                          color: MyColors.lightBlack,
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  inactiveDayStyle: DayStyle(
+                      monthStrStyle:
+                          TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                      dayStrStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                      dayNumStyle: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                      decoration: BoxDecoration(color: MyColors.lightBlack, borderRadius: BorderRadius.all(Radius.circular(10))))),
         ),
       ),
       Expanded(
           child: provider.tasks.isEmpty
               ? Center(
                   child: Text(
-                    'No tasks yet',
-                    style: TextStyle(color: MyColors.lightBlue, fontSize: 18),
+                    'No Tasks Today',
+                    style: TextStyle(
+                        color: MyColors.lightBlue,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
                   ),
                 )
               : ListView.builder(

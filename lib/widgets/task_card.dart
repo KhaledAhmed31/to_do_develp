@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/models/task_model.dart';
 import 'package:to_do/providers/task_provider.dart';
+import 'package:to_do/screens/edit.dart';
 import 'package:to_do/themes&colors/my_colors.dart';
 
 class TaskCard extends StatelessWidget {
@@ -15,10 +16,11 @@ class TaskCard extends StatelessWidget {
     return Card(
       elevation: 10,
       child: Slidable(
-        startActionPane: ActionPane(motion: const ScrollMotion(), children: [
+        startActionPane: ActionPane(motion: const DrawerMotion(), children: [
           SlidableAction(
-            borderRadius:
-                const BorderRadius.horizontal(left: Radius.circular(12)),
+            label: 'Delete',
+            flex: 2,
+            borderRadius: BorderRadius.circular(12),
             onPressed: (context) async {
               Provider.of<TaskProvider>(context, listen: false)
                   .deleteTask(taskModel.id);
@@ -26,6 +28,19 @@ class TaskCard extends StatelessWidget {
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             icon: Icons.delete,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+          ),
+          SlidableAction(
+            label: 'Edit',
+            flex: 3,
+            borderRadius: BorderRadius.circular(12),
+            onPressed: (context) async {
+              Navigator.pushNamed(context, Edit.routeName,
+                  arguments: taskModel.id);
+            },
+            backgroundColor: MyColors.lightBlue,
+            foregroundColor: Colors.white,
+            icon: Icons.edit,
             padding: const EdgeInsets.symmetric(horizontal: 10),
           )
         ]),
@@ -49,7 +64,10 @@ class TaskCard extends StatelessWidget {
                   style: IconButton.styleFrom(
                     backgroundColor: MyColors.lightBlue,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<TaskProvider>(context, listen: false)
+                        .deleteTask(taskModel.id);
+                  },
                   icon: const Icon(
                     Icons.done_outline_rounded,
                     color: Colors.white,

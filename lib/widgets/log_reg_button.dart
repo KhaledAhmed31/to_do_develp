@@ -18,7 +18,7 @@ class LogRegButton extends StatelessWidget {
             backgroundColor: MyColors.lightBlue,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)))),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           title,
           style: const TextStyle(color: Colors.white, fontSize: 20),

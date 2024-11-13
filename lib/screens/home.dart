@@ -5,7 +5,7 @@ import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/task_form.dart';
 
 class Home extends StatefulWidget {
-  static String routeName = "/";
+  static String routeName = "home";
   const Home({super.key});
 
   @override

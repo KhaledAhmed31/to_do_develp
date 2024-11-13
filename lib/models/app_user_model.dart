@@ -1,6 +1,6 @@
 class AppUserModel {
   final String? name;
-  final String? id;
+  String? id;
   final String? email;
 
   AppUserModel({this.name, this.id, this.email});

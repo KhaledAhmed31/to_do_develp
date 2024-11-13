@@ -13,6 +13,7 @@ class MyTheme {
               fontSize: 25,
               fontWeight: FontWeight.bold)),
       appBarTheme: const AppBarTheme(
+          surfaceTintColor: Colors.transparent,
           toolbarHeight: 90,
           titleTextStyle: TextStyle(
               fontSize: 25, letterSpacing: 3, fontWeight: FontWeight.bold),
@@ -42,7 +43,7 @@ class MyTheme {
   static ThemeData darkTheme = ThemeData(
       primaryColor: MyColors.darkBG,
       colorScheme: ColorScheme.fromSeed(
-          seedColor: MyColors.lightBlue, brightness: Brightness.dark),
+          seedColor: MyColors.darkBG, brightness: Brightness.dark),
       scaffoldBackgroundColor: MyColors.darkBG,
       textTheme: TextTheme(
           titleMedium: TextStyle(
@@ -58,7 +59,7 @@ class MyTheme {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         enableFeedback: true,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: MyColors.lightBlack,
         selectedIconTheme: const IconThemeData(size: 40),
         unselectedIconTheme: const IconThemeData(size: 40),
         showSelectedLabels: false,

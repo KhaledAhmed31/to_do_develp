@@ -42,6 +42,14 @@ class _TextFieldState extends State<LogTextField> {
                       ? const Icon(Icons.visibility)
                       : const Icon(Icons.visibility_off))
               : null,
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 164, 0, 0))),
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 164, 0, 0))),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),
               borderSide: const BorderSide(color: Colors.white)),

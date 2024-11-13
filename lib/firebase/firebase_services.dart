@@ -7,10 +7,18 @@ class FirebaseServices {
   static CollectionReference<TaskModel> collection = getCollection();
 
   //returns collection if exists else makes it first
-  static CollectionReference<TaskModel> getCollection() =>
-      FirebaseFirestore.instance.collection('tasks').withConverter(
+  static CollectionReference<TaskModel> getCollection() => getUserCollection()
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('tasks')
+      .withConverter(
           fromFirestore: (snapshot, options) =>
               TaskModel.fromJson(snapshot.data() ?? {}),
+          toFirestore: (value, options) => value.toJson());
+
+  static CollectionReference<AppUserModel> getUserCollection() =>
+      FirebaseFirestore.instance.collection('users').withConverter(
+          fromFirestore: (snapshot, options) =>
+              AppUserModel.fromJson(snapshot.data() ?? {}),
           toFirestore: (value, options) => value.toJson());
 
   static Future<void> addTask(TaskModel task) {
@@ -30,13 +38,37 @@ class FirebaseServices {
     return docs.docs.map((e) => e.data()).toList();
   }
 
-  static Future<void> login(AppUserModel user, String password) async {
+  static Future<AppUserModel> login(AppUserModel user, String password) async {
     UserCredential credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: user.email!, password: password);
+    return user;
   }
 
-  static Future<void> register(AppUserModel user, String password) async {
+  static Future<AppUserModel> register(
+      AppUserModel user, String password) async {
     UserCredential credential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: user.email!, password: password);
+    user.id = credential.user!.uid;
+    createUser(user);
+    return user;
+  }
+
+  static Future<AppUserModel?> getUser() async {
+    DocumentSnapshot<AppUserModel> documentSnapshot = await getUserCollection()
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return documentSnapshot.data();
+  }
+
+  static void createUser(AppUserModel user) {
+    getUserCollection().doc(user.id).set(user);
+  }
+
+  static Future<void> logout() {
+    return FirebaseAuth.instance.signOut();
+  }
+
+  static Future<void> updateTask(TaskModel task, String id) async {
+    return await collection.doc(id).update(task.toJson());
   }
 }
