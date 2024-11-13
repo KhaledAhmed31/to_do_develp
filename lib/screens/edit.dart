@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,7 @@ class _EditState extends State<Edit> {
               colors: [MyColors.lightBlue, Theme.of(context).primaryColor],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              stops: const [.22, .22])),
+              stops: const [.24, .24])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -50,112 +51,123 @@ class _EditState extends State<Edit> {
                 .copyWith(color: Theme.of(context).primaryColor),
           ),
         ),
-        body: Center(
-          heightFactor: 1.2,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 25),
-            height: screenHeight * .6,
-            width: screenWidth * .85,
-            decoration: BoxDecoration(
-                color: themeProvider.getTheme()
-                    ? MyColors.lightBlack
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(15)),
-            child: Column(
-              children: [
-                Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          "Edit Task",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                      MyTextField(
-                        controller: titleController,
-                        hint: "Title",
-                        size: 20,
-                        fontWeight: FontWeight.w700,
-                        maxLines: 1,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return "Enter title";
-                          }
-                          return null;
-                        },
-                      ),
-                      MyTextField(
-                        controller: descriptionController,
-                        hint: "Description",
-                        size: 18,
-                        fontWeight: FontWeight.w400,
-                        maxLines: 5,
-                      ),
-                      SizedBox(
-                        height: screenHeight * .04,
-                      ),
-                      Text(
-                        "Select the date:",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          DateTime? now = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            initialDate: currentDate,
-                            currentDate: DateTime.now(),
-                            lastDate:
-                                DateTime.now().add(const Duration(days: 365)),
-                          );
-                          setState(() {
-                            currentDate =
-                                DateTime(now!.year, now.month, now.day);
-                          });
-                        },
-                        child: Text(
-                          dateFormat.format(currentDate),
-                          style: TextStyle(
-                              fontSize: 18, color: MyColors.lightBlue),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: IconButton.styleFrom(
-                            elevation: 10,
-                            foregroundColor: Colors.white,
-                            backgroundColor: MyColors.lightBlue,
-                            side: const BorderSide(
-                                color: Colors.white, width: 4)),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            FirebaseServices.updateTask(
-                                TaskModel(
-                                    id: taskId,
-                                    title: titleController.text.trim(),
-                                    description:
-                                        descriptionController.text.trim(),
-                                    date: DateTime(currentDate.year,
-                                        currentDate.month, currentDate.day)),
-                                taskId);
-                            Provider.of<TaskProvider>(context, listen: false)
-                                .getTasks();
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 22, horizontal: 25),
+                  height: screenHeight * .6,
+                  width: screenWidth * .85,
+                  decoration: BoxDecoration(
+                      color: themeProvider.getTheme()
+                          ? MyColors.lightBlack
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: SingleChildScrollView(
+                    dragStartBehavior: DragStartBehavior.down,
+                    child: Column(
+                      children: [
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  "Edit Task",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                              MyTextField(
+                                controller: titleController,
+                                hint: "Title",
+                                size: 18,
+                                fontWeight: FontWeight.w700,
+                                maxLines: 1,
+                                validator: (p0) {
+                                  if (p0!.isEmpty) {
+                                    return "Enter title";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              MyTextField(
+                                controller: descriptionController,
+                                hint: "Description",
+                                size: 18,
+                                fontWeight: FontWeight.w400,
+                                maxLines: 3,
+                              ),
+                              SizedBox(),
+                              Text(
+                                "Select the date:",
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  DateTime? now = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    initialDate: currentDate,
+                                    currentDate: DateTime.now(),
+                                    lastDate: DateTime.now()
+                                        .add(const Duration(days: 365)),
+                                  );
+                                  setState(() {
+                                    currentDate =
+                                        DateTime(now!.year, now.month, now.day);
+                                  });
+                                },
+                                child: Text(
+                                  dateFormat.format(currentDate),
+                                  style: TextStyle(
+                                      fontSize: 18, color: MyColors.lightBlue),
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: IconButton.styleFrom(
+                                    elevation: 10,
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: MyColors.lightBlue,
+                                    side: const BorderSide(
+                                        color: Colors.white, width: 4)),
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    FirebaseServices.updateTask(
+                                        TaskModel(
+                                            id: taskId,
+                                            title: titleController.text.trim(),
+                                            description: descriptionController
+                                                .text
+                                                .trim(),
+                                            date: DateTime(
+                                                currentDate.year,
+                                                currentDate.month,
+                                                currentDate.day)),
+                                        taskId);
+                                    Provider.of<TaskProvider>(context,
+                                            listen: false)
+                                        .getTasks();
 
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: Text('Save changes',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                      )
-                    ],
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                child: Text('Save changes',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18)),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

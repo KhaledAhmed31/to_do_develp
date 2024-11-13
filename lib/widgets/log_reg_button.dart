@@ -14,7 +14,7 @@ class LogRegButton extends StatelessWidget {
       ),
       child: TextButton(
         style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 14),
             backgroundColor: MyColors.lightBlue,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)))),

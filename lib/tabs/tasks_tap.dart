@@ -26,9 +26,6 @@ class TasksState extends State<Tasks> {
     isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(children: [
-      SizedBox(
-        height: MediaQuery.sizeOf(context).height * .05,
-      ),
       Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: EasyInfiniteDateTimeLine(

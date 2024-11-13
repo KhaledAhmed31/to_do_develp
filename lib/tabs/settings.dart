@@ -14,7 +14,7 @@ class Settings extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.sizeOf(context).height * .11,
+          height: MediaQuery.sizeOf(context).height * .075,
         ),
         ListTile(
           contentPadding: EdgeInsets.only(right: 5, left: 20),
@@ -44,6 +44,7 @@ class Settings extends StatelessWidget {
             },
           ),
         ),
+        Divider(),
         ListTile(
           contentPadding: EdgeInsets.only(right: 5, left: 20),
           title: Text(

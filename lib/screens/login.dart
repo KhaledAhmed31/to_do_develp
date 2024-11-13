@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
@@ -29,89 +30,93 @@ class _LoginState extends State<Login> {
     return LoaderOverlay(
       child: Container(
           decoration: const BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/login_bg.png"))),
+              image: DecorationImage(
+                  image: AssetImage("assets/login_bg.png"), fit: BoxFit.cover)),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Form(
               key: fromKey,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .504 + 74,
-                  ),
-                  LogTextField(
-                    hint: "Enter your email",
-                    controller: emailController,
-                    ketBordTybe: TextInputType.emailAddress,
-                    validator: (p0) {
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(p0!)) {
-                        return 'Ivalid Email';
-                      }
-                      return null;
-                    },
-                  ),
-                  LogTextField(
-                    hint: "Enter Password",
-                    controller: passwordController,
-                    isPassword: true,
-                  ),
-                  SizedBox(
-                      width: MediaQuery.sizeOf(context).width - 54,
-                      child: LogRegButton(
-                        title: 'Login',
-                        onPressed: () async {
-                          if (fromKey.currentState!.validate()) {
-                            context.loaderOverlay.show();
-                            await Provider.of<MyAuthProvider>(context,
-                                    listen: false)
-                                .login(
-                                    AppUserModel(email: emailController.text),
-                                    passwordController.text)
-                                .then(
-                              (value) {
-                                if (Provider.of<MyAuthProvider>(context,
-                                            listen: false)
-                                        .userModel !=
-                                    null) {
-                                  Navigator.pushReplacementNamed(
-                                      context, Home.routeName);
-                                }
-                              },
-                            );
-                            context.loaderOverlay.hide();
-                          }
-                        },
-                      )),
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Forget password",
-                        style: TextStyle(color: MyColors.lightBlue),
-                      )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account?",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.only(),
-                              foregroundColor: MyColors.lightBlue),
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, Register.routeName);
+              child: SingleChildScrollView(
+                dragStartBehavior: DragStartBehavior.down,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * .504 + 44,
+                    ),
+                    LogTextField(
+                      hint: "Enter your email",
+                      controller: emailController,
+                      ketBordTybe: TextInputType.emailAddress,
+                      validator: (p0) {
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(p0!)) {
+                          return 'Ivalid Email';
+                        }
+                        return null;
+                      },
+                    ),
+                    LogTextField(
+                      hint: "Enter Password",
+                      controller: passwordController,
+                      isPassword: true,
+                    ),
+                    SizedBox(
+                        width: MediaQuery.sizeOf(context).width - 54,
+                        child: LogRegButton(
+                          title: 'Login',
+                          onPressed: () async {
+                            if (fromKey.currentState!.validate()) {
+                              context.loaderOverlay.show();
+                              await Provider.of<MyAuthProvider>(context,
+                                      listen: false)
+                                  .login(
+                                      AppUserModel(email: emailController.text),
+                                      passwordController.text)
+                                  .then(
+                                (value) {
+                                  if (Provider.of<MyAuthProvider>(context,
+                                              listen: false)
+                                          .userModel !=
+                                      null) {
+                                    Navigator.pushReplacementNamed(
+                                        context, Home.routeName);
+                                  }
+                                },
+                              );
+                              context.loaderOverlay.hide();
+                            }
                           },
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(fontSize: 16),
-                          ))
-                    ],
-                  ),
-                ],
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Forget password",
+                          style: TextStyle(color: MyColors.lightBlue),
+                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account?",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        TextButton(
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(),
+                                foregroundColor: MyColors.lightBlue),
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, Register.routeName);
+                            },
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(fontSize: 16),
+                            ))
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           )),
