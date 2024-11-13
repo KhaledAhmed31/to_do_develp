@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do/firebase/firebase_services.dart';
 import 'package:to_do/models/app_user_model.dart';
 import 'package:to_do/providers/auth_provider.dart';
-import 'package:to_do/screens/home.dart';
 import 'package:to_do/screens/login.dart';
 import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/log_reg_button.dart';

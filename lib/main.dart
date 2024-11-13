@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do/providers/auth_provider.dart';
 import 'package:to_do/providers/task_provider.dart';
 import 'package:to_do/providers/theme_provider.dart';
