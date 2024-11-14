@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LogTextField extends StatefulWidget {
   final TextInputType? ketBordTybe;
@@ -26,6 +25,7 @@ class _TextFieldState extends State<LogTextField> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, left: 24, right: 24),
       child: TextFormField(
+        style: TextStyle(color: Colors.black, fontSize: 16),
         validator: widget.validator,
         keyboardType: widget.ketBordTybe,
         obscureText: widget.isPassword && !isVissible,

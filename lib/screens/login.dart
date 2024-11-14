@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                       children: [
                         const Text(
                           "Don't have an account?",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         TextButton(
                             style: TextButton.styleFrom(
