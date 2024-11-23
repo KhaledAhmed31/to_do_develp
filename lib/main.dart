@@ -21,7 +21,7 @@ void main() async {
   );
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => TaskProvider()..getTasks()),
+      ChangeNotifierProvider(create: (_) => TaskProvider()),
       ChangeNotifierProvider(create: (_) => MyAuthProvider()),
       ChangeNotifierProvider(create: (_) => themeProvider)
     ],

@@ -6,6 +6,7 @@ import 'package:to_do/firebase/firebase_services.dart';
 import 'package:to_do/models/task_model.dart';
 import 'package:to_do/providers/task_provider.dart';
 import 'package:to_do/providers/theme_provider.dart';
+import 'package:to_do/tabs/tasks_tap.dart';
 
 import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/my_text_field.dart';
@@ -19,7 +20,7 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  DateTime currentDate = DateTime.now();
+  DateTime currentDate = TasksState.currentDate;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -147,9 +148,6 @@ class _EditState extends State<Edit> {
                                                 currentDate.month,
                                                 currentDate.day)),
                                         taskId);
-                                    Provider.of<TaskProvider>(context,
-                                            listen: false)
-                                        .getTasks();
 
                                     Navigator.of(context).pop();
                                   }

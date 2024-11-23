@@ -31,15 +31,18 @@ class FirebaseServices {
     return await collection.doc(id).delete();
   }
 
-  static Future<List<TaskModel>> getTasks(DateTime selectedDate) async {
-    QuerySnapshot<TaskModel> docs = await collection
+  static Stream<List<TaskModel>> getTasks(DateTime selectedDate) async* {
+    Stream<QuerySnapshot<TaskModel>> querySnapshot = collection
         .where('date', isEqualTo: Timestamp.fromDate(selectedDate))
-        .get();
-    return docs.docs.map((e) => e.data()).toList();
+        .snapshots();
+
+    var date =
+        querySnapshot.map((event) => event.docs.map((e) => e.data()).toList());
+    yield* date;
   }
 
   static Future<AppUserModel> login(AppUserModel user, String password) async {
-    UserCredential credential = await FirebaseAuth.instance
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: user.email!, password: password);
     return user;
   }

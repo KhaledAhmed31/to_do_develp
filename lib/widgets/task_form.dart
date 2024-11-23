@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/models/task_model.dart';
 import 'package:to_do/providers/task_provider.dart';
+import 'package:to_do/tabs/tasks_tap.dart';
 import 'package:to_do/themes&colors/my_colors.dart';
 import 'package:to_do/widgets/my_text_field.dart';
 
@@ -14,7 +15,7 @@ class TaskForm extends StatefulWidget {
 }
 
 class _TaskFormState extends State<TaskForm> {
-  DateTime currentDate = DateTime.now();
+  DateTime selectedDate = TasksState.currentDate;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -69,16 +70,16 @@ class _TaskFormState extends State<TaskForm> {
                   DateTime? now = await showDatePicker(
                     context: context,
                     firstDate: DateTime.now(),
-                    initialDate: currentDate,
+                    initialDate: selectedDate,
                     currentDate: DateTime.now(),
                     lastDate: DateTime.now().add(const Duration(days: 365)),
                   );
                   setState(() {
-                    currentDate = DateTime(now!.year, now.month, now.day);
+                    selectedDate = DateTime(now!.year, now.month, now.day);
                   });
                 },
                 child: Text(
-                  dateFormat.format(currentDate),
+                  dateFormat.format(selectedDate),
                   style: TextStyle(fontSize: 18, color: MyColors.lightBlue),
                 ),
               ),
@@ -88,16 +89,19 @@ class _TaskFormState extends State<TaskForm> {
                       foregroundColor: Colors.white,
                       backgroundColor: MyColors.lightBlue,
                       side: const BorderSide(color: Colors.white, width: 4)),
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      provider.addTask(TaskModel(
-                          title: titleController.text.trim(),
-                          description: descriptionController.text.trim(),
-                          date: DateTime(currentDate.year, currentDate.month,
-                              currentDate.day)));
-                      Navigator.of(context).pop();
-                    }
-                  },
+                  onPressed: (TasksState.currentDate.day < DateTime.now().day &&
+                          TasksState.currentDate.month <= DateTime.now().month)
+                      ? null
+                      : () {
+                          if (formKey.currentState!.validate()) {
+                            provider.addTask(TaskModel(
+                                title: titleController.text.trim(),
+                                description: descriptionController.text.trim(),
+                                date: DateTime(selectedDate.year,
+                                    selectedDate.month, selectedDate.day)));
+                            Navigator.of(context).pop();
+                          }
+                        },
                   child: const Icon(
                     Icons.done,
                   ))

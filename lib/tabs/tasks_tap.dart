@@ -17,12 +17,11 @@ class TasksState extends State<Tasks> {
   EasyInfiniteDateTimelineController controller =
       EasyInfiniteDateTimelineController();
   late bool isDark;
-  DateTime currentDate = DateTime.now();
+  static DateTime currentDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
-    TaskProvider provider = Provider.of<TaskProvider>(context);
     isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(children: [
@@ -32,11 +31,11 @@ class TasksState extends State<Tasks> {
           controller: controller,
           showTimelineHeader: false,
           firstDate: DateTime(2018),
-          focusDate: provider.currentDate,
+          focusDate: currentDate,
           lastDate: DateTime(2028),
           onDateChange: (selectedDate) {
             setState(() {
-              provider.changeDate(selectedDate);
+              currentDate = selectedDate;
             });
           },
           dayProps: !themeProvider.getTheme()
@@ -123,21 +122,40 @@ class TasksState extends State<Tasks> {
                       decoration: BoxDecoration(color: MyColors.lightBlack, borderRadius: BorderRadius.all(Radius.circular(10))))),
         ),
       ),
-      Expanded(
-          child: provider.tasks.isEmpty
-              ? Center(
-                  child: Text(
-                    'No Tasks Today',
-                    style: TextStyle(
-                        color: MyColors.lightBlue,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: provider.tasks.length,
-                  itemBuilder: (context, index) =>
-                      TaskCard(taskModel: provider.tasks[index])))
+      StreamBuilder(
+        stream: Provider.of<TaskProvider>(context, listen: false)
+            .getTasks(currentDate),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            print('=====================================');
+            return Expanded(
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: MyColors.lightBlue,
+                ),
+              ),
+            );
+          } else if (snapshot.data!.isEmpty) {
+            return Expanded(
+              child: Center(
+                child: Text(
+                  "No Tasks Today",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
+              ),
+            );
+          } else {
+            return Expanded(
+                child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) =>
+                        TaskCard(taskModel: snapshot.data![index])));
+          }
+        },
+      )
     ]);
   }
 }

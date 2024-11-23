@@ -54,7 +54,6 @@ class Settings extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 0),
               onPressed: () {
                 FirebaseServices.logout();
-                Provider.of<TaskProvider>(context, listen: false).tasks.clear();
                 Navigator.pushReplacementNamed(context, Login.routeName);
               },
               icon: Icon(

@@ -17,8 +17,6 @@ class _HomeState extends State<Home> {
   int currentTap = 0;
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.sizeOf(context).height;
-
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
